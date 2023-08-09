@@ -1,23 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect } from "react";
+import "./App.css";
+import axios from "axios";
+import { useState } from "react";
 
 function App() {
+  let [prod, setProd] = useState([]);
+  let [search, setSearch] = useState([]);
+
+  useEffect(() => {
+    axios.get("https://fakestoreapi.com/products").then((list) => {
+      setProd(list.data);
+    });
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {prod.map((obj) => {
+        return (
+          <>
+            <div className="parent">
+              <div>{obj.id}</div>
+              <div>{obj.category}</div>
+              <div>{obj.price}</div>
+            </div>
+            <br />
+          </>
+        );
+      })}
     </div>
   );
 }
